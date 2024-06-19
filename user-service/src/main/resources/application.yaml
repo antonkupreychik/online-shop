@@ -1,0 +1,23 @@
+server:
+  port: 9001
+
+springdoc:
+  swagger-ui:
+    path: /swagger/swagger-ui.html
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    username: anton
+    password: anton
+    url: jdbc:postgresql://localhost:5432/online-shop
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_schema: users_management
+  sql:
+    init:
+      schema-locations: classpath:db/schema.sql
