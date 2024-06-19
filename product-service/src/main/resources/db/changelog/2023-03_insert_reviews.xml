@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-reviews-2023-03" author="yourname">
+        <insert tableName="reviews">
+            <column name="product_id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="101"/>
+            <column name="rating" valueNumeric="5"/>
+            <column name="comment" value="Excellent product, highly recommend!"/>
+            <column name="created_at" valueDate="2023-01-01T12:00:00"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="product_id" valueNumeric="2"/>
+            <column name="user_id" valueNumeric="102"/>
+            <column name="rating" valueNumeric="4"/>
+            <column name="comment" value="Very good laptop but a bit pricey."/>
+            <column name="created_at" valueDate="2023-01-02T12:00:00"/>
+        </insert>
+        <insert tableName="reviews">
+            <column name="product_id" valueNumeric="1"/>
+            <column name="user_id" valueNumeric="103"/>
+            <column name="rating" valueNumeric="3"/>
+            <column name="comment" value="It's okay, not what I expected though."/>
+            <column name="created_at" valueDate="2023-01-03T12:00:00"/>
+        </insert>
+        <!-- Add more reviews as needed -->
+    </changeSet>
+</databaseChangeLog>

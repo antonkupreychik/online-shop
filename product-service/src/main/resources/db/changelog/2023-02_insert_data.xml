@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="4" author="yourname">
+        <insert tableName="categories">
+            <column name="name" value="Electronics"/>
+            <column name="description" value="Electronic gadgets and devices"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Books"/>
+            <column name="description" value="Fiction and non-fiction books"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Clothing"/>
+            <column name="description" value="Clothes and fashion"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Kitchen"/>
+            <column name="description" value="Kitchen tools and appliances"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Sports"/>
+            <column name="description" value="Sporting goods and outdoor activities"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Automotive"/>
+            <column name="description" value="Car accessories and parts"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Beauty"/>
+            <column name="description" value="Beauty products and cosmetics"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Toys"/>
+            <column name="description" value="Toys and games for children"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Gardening"/>
+            <column name="description" value="Gardening tools and plants"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Furniture"/>
+            <column name="description" value="Home furniture and decor"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="5" author="yourname">
+
+        <insert tableName="products">
+            <column name="name" value="Smartphone"/>
+            <column name="description" value="High-end smartphone"/>
+            <column name="price" valueNumeric="699.99"/>
+            <column name="quantity_in_stock" valueNumeric="150"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Laptop"/>
+            <column name="description" value="Gaming laptop"/>
+            <column name="price" valueNumeric="1200.00"/>
+            <column name="quantity_in_stock" valueNumeric="85"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Bluetooth Headphones"/>
+            <column name="description" value="Wireless audio headphones"/>
+            <column name="price" valueNumeric="199.95"/>
+            <column name="quantity_in_stock" valueNumeric="200"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Electric Kettle"/>
+            <column name="description" value="1.5L electric kettle"/>
+            <column name="price" valueNumeric="49.99"/>
+            <column name="quantity_in_stock" valueNumeric="100"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="6" author="yourname">
+        <!-- Continue inserting products -->
+        <insert tableName="products">
+            <column name="name" value="Table Lamp"/>
+            <column name="description" value="Stylish table lamp for reading"/>
+            <column name="price" valueNumeric="45.50"/>
+            <column name="quantity_in_stock" valueNumeric="150"/>
+            <column name="category_id" valueNumeric="7"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Garden Hose"/>
+            <column name="description" value="Flexible garden hose 50m"/>
+            <column name="price" valueNumeric="34.99"/>
+            <column name="quantity_in_stock" valueNumeric="75"/>
+            <column name="category_id" valueNumeric="9"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Grill"/>
+            <column name="description" value="Outdoor barbecue grill"/>
+            <column name="price" valueNumeric="129.99"/>
+            <column name="quantity_in_stock" valueNumeric="40"/>
+            <column name="category_id" valueNumeric="9"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Wall Clock"/>
+            <column name="description" value="Decorative wall clock"/>
+            <column name="price" valueNumeric="25.99"/>
+            <column name="quantity_in_stock" valueNumeric="120"/>
+            <column name="category_id" valueNumeric="7"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Dining Chair"/>
+            <column name="description" value="Comfortable dining chair"/>
+            <column name="price" valueNumeric="89.95"/>
+            <column name="quantity_in_stock" valueNumeric="200"/>
+            <column name="category_id" valueNumeric="10"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Yoga Mat"/>
+            <column name="description" value="Eco-friendly yoga mat"/>
+            <column name="price" valueNumeric="19.95"/>
+            <column name="quantity_in_stock" valueNumeric="150"/>
+            <column name="category_id" valueNumeric="5"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Blender"/>
+            <column name="description" value="High power blender for smoothies"/>
+            <column name="price" valueNumeric="59.99"/>
+            <column name="quantity_in_stock" valueNumeric="85"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Office Desk"/>
+            <column name="description" value="Spacious office desk"/>
+            <column name="price" valueNumeric="199.99"/>
+            <column name="quantity_in_stock" valueNumeric="30"/>
+            <column name="category_id" valueNumeric="10"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Wireless Charger"/>
+            <column name="description" value="Fast charging wireless charger"/>
+            <column name="price" valueNumeric="29.95"/>
+            <column name="quantity_in_stock" valueNumeric="250"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+        <insert tableName="products">
+            <column name="name" value="Notebook"/>
+            <column name="description" value="120 pages notebook for daily notes"/>
+            <column name="price" valueNumeric="3.99"/>
+            <column name="quantity_in_stock" valueNumeric="300"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
