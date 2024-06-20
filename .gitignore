@@ -1,4 +1,4 @@
-
+.idea/*
+*.iml
 /.idea/
-!/amplicode.xml
-!/online-shop.iml
+/.idea/jpa.xml
