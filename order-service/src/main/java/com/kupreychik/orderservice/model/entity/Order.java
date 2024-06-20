@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.math.BigDecimal;
@@ -32,8 +34,10 @@ public class Order {
     private String status;
     @Column(name = "total_price")
     private BigDecimal totalPrice;
+    @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 

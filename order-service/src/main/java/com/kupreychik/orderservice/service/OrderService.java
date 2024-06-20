@@ -1,5 +1,6 @@
 package com.kupreychik.orderservice.service;
 
+import com.kupreychik.orderservice.model.dto.OrderDto;
 import com.kupreychik.orderservice.model.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,4 +15,6 @@ public interface OrderService {
     Order getOrderById(Long id);
 
     Order createOrder(Order order);
+
+    Page<OrderDto> getOrdersByUserId(Long userId, Pageable pageable);
 }

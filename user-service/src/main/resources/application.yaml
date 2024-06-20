@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: 9001
 
 springdoc:
   swagger-ui:
@@ -18,7 +18,7 @@ spring:
   datasource:
     username: anton
     password: anton
-    url: jdbc:postgresql://postgres:5432/online-shop
+    url: ${URL:jdbc:postgresql://localhost:5432/online-shop}
   jpa:
     hibernate:
       ddl-auto: none
@@ -26,3 +26,8 @@ spring:
       hibernate:
         default_schema: user_management
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  order-service:
+    url: ${PRODUCT_SERVICE_URL:http://localhost:9003}
+    path: ${PRODUCT_SERVICE_PATH:/api/orders/users}

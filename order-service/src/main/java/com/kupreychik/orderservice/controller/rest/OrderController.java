@@ -1,5 +1,6 @@
 package com.kupreychik.orderservice.controller.rest;
 
+import com.kupreychik.orderservice.model.dto.OrderDto;
 import com.kupreychik.orderservice.model.entity.Order;
 import com.kupreychik.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,11 @@ public class OrderController {
     public ResponseEntity<Page<Order>> getAllOrders(Pageable pageable) {
         Page<Order> orders = orderService.getAllOrders(pageable);
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<Page<OrderDto>> getOrdersByUserId(@PathVariable Long userId, Pageable pageable) {
+        return ResponseEntity.ok(orderService.getOrdersByUserId(userId, pageable));
     }
 }
 

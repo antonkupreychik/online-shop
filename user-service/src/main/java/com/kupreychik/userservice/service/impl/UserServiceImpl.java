@@ -1,7 +1,9 @@
 package com.kupreychik.userservice.service.impl;
 
+import com.kupreychik.userservice.config.OrderServiceProperties;
 import com.kupreychik.userservice.mapper.UserMapper;
 import com.kupreychik.userservice.model.command.UserCommand;
+import com.kupreychik.userservice.model.dto.OrderDTO;
 import com.kupreychik.userservice.model.dto.UserDto;
 import com.kupreychik.userservice.model.entity.User;
 import com.kupreychik.userservice.repository.UserRepository;
@@ -9,11 +11,13 @@ import com.kupreychik.userservice.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.util.Optional;
 
@@ -25,6 +29,16 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final OrderServiceProperties properties;
+
+    @Override
+    public String getUserOrders(Long id, Pageable pageable) {
+        RestClient restClient = RestClient.create();
+        return restClient.get()
+                .uri(properties.getUrl() + properties.getPath() + "/" + id)
+                .retrieve()
+                .body(String.class);
+    }
 
     @Override
     public Page<User> getUsers(Pageable pageable) {

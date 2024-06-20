@@ -1,6 +1,7 @@
 package com.kupreychik.userservice.service;
 
 import com.kupreychik.userservice.model.command.UserCommand;
+import com.kupreychik.userservice.model.dto.OrderDTO;
 import com.kupreychik.userservice.model.dto.UserDto;
 import com.kupreychik.userservice.model.entity.User;
 import org.springframework.data.domain.Page;
@@ -19,4 +20,6 @@ public interface UserService {
     User updateUser(Long id, User userDetails);
 
     boolean deleteUser(Long id);
+
+    String getUserOrders(Long id, Pageable pageable);
 }

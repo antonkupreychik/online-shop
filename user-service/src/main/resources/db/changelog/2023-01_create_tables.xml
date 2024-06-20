@@ -17,19 +17,19 @@
             <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="passwordHash" type="VARCHAR(255)">
+            <column name="password_hash" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="firstName" type="VARCHAR(255)">
+            <column name="first_name" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="lastName" type="VARCHAR(255)">
+            <column name="last_name" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
-            <column name="createdAt" type="TIMESTAMP">
+            <column name="created_at" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="updatedAt" type="TIMESTAMP">
+            <column name="updated_at" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </createTable>

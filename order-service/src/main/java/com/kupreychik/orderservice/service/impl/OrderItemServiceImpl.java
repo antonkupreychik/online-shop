@@ -1,8 +1,10 @@
 package com.kupreychik.orderservice.service.impl;
 
+import com.kupreychik.orderservice.excpetions.QuantityException;
 import com.kupreychik.orderservice.model.entity.OrderItem;
 import com.kupreychik.orderservice.repository.OrderItemRepository;
 import com.kupreychik.orderservice.service.OrderItemService;
+import com.kupreychik.orderservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderItemServiceImpl implements OrderItemService {
 
+    private final ProductService productService;
     private final OrderItemRepository orderItemRepository;
 
     @Transactional
     public OrderItem createOrderItem(OrderItem orderItem) {
+        checkForQuantity(orderItem);
         return orderItemRepository.save(orderItem);
     }
 
@@ -47,5 +51,12 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional(readOnly = true)
     public List<OrderItem> getOrderItemsByOrderId(Long orderId) {
         return orderItemRepository.findAllByOrderId(orderId);
+    }
+
+    private void checkForQuantity(OrderItem orderItem) {
+        var infoAboutProduct = productService.findProductById(orderItem.getProductId());
+        if (infoAboutProduct != null && infoAboutProduct.getQuantityInStock() < orderItem.getQuantity()) {
+            throw new QuantityException("Not enough stock for product " + orderItem.getProductId());
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.kupreychik.userservice.controller.rest;
 
 import com.kupreychik.userservice.model.command.UserCommand;
+import com.kupreychik.userservice.model.dto.OrderDTO;
 import com.kupreychik.userservice.model.dto.UserDto;
 import com.kupreychik.userservice.model.entity.User;
 import com.kupreychik.userservice.service.UserService;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -67,6 +70,13 @@ public class UsersController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{id}/orders")
+    public ResponseEntity<String> getUserOrders(@Parameter(description = "ID of the user to retrieve") @PathVariable Long id,
+                                                        Pageable pageable) {
+        return ResponseEntity.ok(userService.getUserOrders(id, pageable));
+    }
+
 
     @PutMapping("/{id}")
     @Operation(summary = "Update user", description = "Update an existing user's details")
