@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create-order-statuses-table" author="your-username">
+        <createTable tableName="order_statuses">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="next_status_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="previous_status_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="insert-order-statuses" author="your-username">
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="1"/>
+            <column name="name" value="New"/>
+            <column name="description" value="Order has been created and is waiting for processing"/>
+            <column name="next_status_id" value="2"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="2"/>
+            <column name="name" value="Pending"/>
+            <column name="description" value="Order is pending and waiting for confirmation"/>
+            <column name="next_status_id" value="3"/>
+            <column name="previous_status_id" value="1"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="3"/>
+            <column name="name" value="Confirmed"/>
+            <column name="description" value="Payment has been confirmed and order is being prepared"/>
+            <column name="next_status_id" value="4"/>
+            <column name="previous_status_id" value="2"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="4"/>
+            <column name="name" value="Processing"/>
+            <column name="description" value="Order is currently being processed and packed"/>
+            <column name="next_status_id" value="5"/>
+            <column name="previous_status_id" value="3"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="5"/>
+            <column name="name" value="Completed"/>
+            <column name="description" value="Order has been successfully completed"/>
+            <column name="next_status_id" value="6"/>
+            <column name="previous_status_id" value="4"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="6"/>
+            <column name="name" value="Cancelled"/>
+            <column name="description" value="Order has been cancelled"/>
+            <column name="next_status_id" value="7"/>
+            <column name="previous_status_id" value="5"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="7"/>
+            <column name="name" value="Refunded"/>
+            <column name="description" value="Order has been refunded"/>
+            <column name="next_status_id" value="8"/>
+            <column name="previous_status_id" value="6"/>
+        </insert>
+        <insert tableName="order_statuses">
+            <column name="id" valueNumeric="8"/>
+            <column name="name" value="Failed"/>
+            <column name="description" value="Order processing failed due to some error"/>
+            <column name="previous_status_id" value="7"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

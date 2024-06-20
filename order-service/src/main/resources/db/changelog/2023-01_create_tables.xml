@@ -14,7 +14,7 @@
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="status" type="varchar(255)">
+            <column name="status_id" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="total_price" type="decimal(19,2)">

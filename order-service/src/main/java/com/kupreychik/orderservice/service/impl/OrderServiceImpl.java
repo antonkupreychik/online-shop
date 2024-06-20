@@ -1,16 +1,22 @@
 package com.kupreychik.orderservice.service.impl;
 
-import com.kupreychik.orderservice.config.ProductServiceProperties;
+import com.kupreychik.orderservice.events.OrderStatusUpdateEvent;
+import com.kupreychik.orderservice.mapper.OrderItemMapper;
+import com.kupreychik.orderservice.mapper.OrderMapper;
+import com.kupreychik.orderservice.model.command.OrderCommand;
 import com.kupreychik.orderservice.model.dto.OrderDto;
-import com.kupreychik.orderservice.model.dto.OrderItemDto;
 import com.kupreychik.orderservice.model.entity.Order;
 import com.kupreychik.orderservice.model.entity.OrderItem;
+import com.kupreychik.orderservice.model.entity.OrderStatus;
 import com.kupreychik.orderservice.repository.OrderItemRepository;
 import com.kupreychik.orderservice.repository.OrderRepository;
 import com.kupreychik.orderservice.service.OrderService;
+import com.kupreychik.orderservice.service.OrderStatusService;
 import com.kupreychik.orderservice.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +29,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
+    private final OrderStatusService orderStatusService;
+    private final ProductService productService;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final ProductService productService;
-
+    private final ApplicationEventPublisher publisher;
 
     @Override
     public Page<OrderDto> getOrdersByUserId(Long userId, Pageable pageable) {
@@ -34,19 +43,13 @@ public class OrderServiceImpl implements OrderService {
         if (orders.getContent().isEmpty()) {
             return Page.empty();
         }
-        List<OrderDto> orderDtos = new ArrayList<>();
+        var orderDtos = new ArrayList<OrderDto>();
 
         orders.getContent().forEach(order -> {
-            OrderDto orderDto = new OrderDto();
-            orderDto.setId(order.getId());
-            orderDto.setUserId(order.getUserId());
-            orderDto.setStatus(order.getStatus());
-            orderDto.setTotalPrice(order.getTotalPrice());
-            orderDto.setItems(new ArrayList<>());
+            var orderDto = orderMapper.toDto(order);
             var orderItems = orderItemRepository.findAllByOrderId(order.getId());
             //TODO: rewrite for one request
             processOrderItems(orderItems, orderDto);
-
             orderDtos.add(orderDto);
         });
 
@@ -56,19 +59,22 @@ public class OrderServiceImpl implements OrderService {
     private void processOrderItems(List<OrderItem> orderItems, OrderDto orderDto) {
         orderItems.forEach(orderItem -> {
             var product = productService.findProductById(orderItem.getProductId());
-
-            OrderItemDto orderItemDto = new OrderItemDto();
-            orderItemDto.setName(product.getName());
-            orderItemDto.setPrice(orderItem.getPrice());
-            orderItemDto.setQuantity(orderItem.getQuantity());
-
-            orderDto.getItems().add(orderItemDto);
+            orderDto.getItems()
+                    .add(
+                            orderItemMapper.toDto(orderItem, product.getName())
+                    );
         });
     }
 
     @Transactional
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    public OrderDto createOrder(OrderCommand orderCommand) {
+        var orderStatus = orderStatusService.getFirstOrderStatus();
+        var order = orderMapper.toOrder(orderCommand);
+        order.setStatus(orderStatus);
+        order = orderRepository.save(order);
+
+        publisher.publishEvent(createOrderStatusUpdateEvent(order, orderStatus));
+        return orderMapper.toDto(order);
     }
 
     @Transactional
@@ -97,5 +103,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Page<Order> getAllOrders(Pageable pageable) {
         return orderRepository.findAll(pageable);
+    }
+
+    private OrderStatusUpdateEvent createOrderStatusUpdateEvent(Order order, OrderStatus orderStatus) {
+        return new OrderStatusUpdateEvent(order, orderStatus);
     }
 }

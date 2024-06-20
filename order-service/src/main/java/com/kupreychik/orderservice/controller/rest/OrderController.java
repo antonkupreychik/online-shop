@@ -1,5 +1,6 @@
 package com.kupreychik.orderservice.controller.rest;
 
+import com.kupreychik.orderservice.model.command.OrderCommand;
 import com.kupreychik.orderservice.model.dto.OrderDto;
 import com.kupreychik.orderservice.model.entity.Order;
 import com.kupreychik.orderservice.service.OrderService;
@@ -28,8 +29,8 @@ public class OrderController {
     @PostMapping
     @Operation(summary = "Create a new order", description = "Creates a new order and returns it.")
     @ApiResponse(responseCode = "201", description = "Order created", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Order.class))})
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
+    public ResponseEntity<OrderDto> createOrder(@RequestBody OrderCommand order) {
+        OrderDto createdOrder = orderService.createOrder(order);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
