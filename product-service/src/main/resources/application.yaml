@@ -7,16 +7,18 @@ springdoc:
 
 spring:
   application:
-    name: user-service
+    name: product-service
   liquibase:
     change-log: classpath:db/changelog.xml
     enabled: true
+    user: anton
+    password: anton
     default-schema:  product_management
     liquibase-schema: product_management_migrations
   datasource:
     username: anton
     password: anton
-    url: jdbc:postgresql://localhost:5432/online-shop
+    url: jdbc:postgresql://postgres:5432/online-shop
   jpa:
     hibernate:
       ddl-auto: none
@@ -24,6 +26,3 @@ spring:
       hibernate:
         default_schema: product_management
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="create-users-table" author="your-username">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="passwordHash" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="firstName" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="lastName" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="createdAt" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updatedAt" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-roles-table" author="your-username">
+        <createTable tableName="roles">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-user-roles-table" author="your-username">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint constraintName="fk_user_roles_user_id"
+                                 baseTableName="user_roles"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_user_roles_role_id"
+                                 baseTableName="user_roles"
+                                 baseColumnNames="role_id"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+
+</databaseChangeLog>
