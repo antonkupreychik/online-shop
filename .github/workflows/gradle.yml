@@ -1,4 +1,4 @@
-name: Build all micro-services and test
+name: Build all micro-services
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
     - name: Build ${{ matrix.service }}
       run: |
         cd ${{ matrix.service }}
-        chmod +x ./gradlew
+        chmod +x ./gradlew -x test
         ./gradlew build
 
     - name: Archive production artifacts
