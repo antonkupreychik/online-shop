@@ -1,6 +1,6 @@
 package com.kupreychik.orderservice.service.impl;
 
-import com.kupreychik.orderservice.events.OrderCreatedEvent;
+import com.kupreychik.orderservice.events.OrderItemAddedEvent;
 import com.kupreychik.orderservice.excpetions.QuantityException;
 import com.kupreychik.orderservice.model.entity.OrderItem;
 import com.kupreychik.orderservice.repository.OrderItemRepository;
@@ -24,7 +24,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Transactional
     public OrderItem createOrderItem(OrderItem orderItem) {
         //checkForQuantity(orderItem);
-        eventPublisher.publishEvent(new OrderCreatedEvent(orderItem));
+        eventPublisher.publishEvent(new OrderItemAddedEvent(orderItem));
         //return orderItemRepository.save(orderItem);
         return null;
     }

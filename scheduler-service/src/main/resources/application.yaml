@@ -1,0 +1,14 @@
+org:
+  jobrunr:
+    background-job-server:
+      enabled: 'true'
+    dashboard:
+      port: '9007'
+      enabled: 'true'
+spring:
+  application:
+    name: scheduler-service
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: online-shop

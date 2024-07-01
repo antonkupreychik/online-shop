@@ -109,7 +109,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      KAFKA_BROKERCONNECT: "kafka:9092"
+      KAFKA_BROKERCONNECT: "localhost:9092"
     depends_on:
       - kafka
   keycloak:

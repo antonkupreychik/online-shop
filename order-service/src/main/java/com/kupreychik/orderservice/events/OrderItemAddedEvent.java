@@ -5,11 +5,11 @@ import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-public class OrderCreatedEvent extends ApplicationEvent {
+public class OrderItemAddedEvent extends ApplicationEvent {
 
     private final OrderItem orderItem;
 
-    public OrderCreatedEvent(Object entity) {
+    public OrderItemAddedEvent(Object entity) {
         super(entity);
         this.orderItem = (OrderItem) entity;
     }

@@ -1,10 +1,12 @@
-package com.kupreychik.statisticservice.model;
+package com.kupreychik.statisticservice.model.entity;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +22,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@SequenceGenerator(name = "id_seq", sequenceName = "statistic_seq", initialValue = 1, allocationSize = 1)
-public class Statistic {
+@Table(name = "statistic_report")
+@SequenceGenerator(name = "id_seq", sequenceName = "statistic_report_seq", initialValue = 1, allocationSize = 1)
+public class StatisticReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
@@ -29,4 +32,5 @@ public class Statistic {
     private String data;
     @CreationTimestamp
     private LocalDateTime timestamp;
+
 }

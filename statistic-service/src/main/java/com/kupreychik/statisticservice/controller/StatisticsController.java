@@ -1,13 +1,13 @@
 package com.kupreychik.statisticservice.controller;
 
-import com.kupreychik.statisticservice.model.dto.ProductDto;
 import com.kupreychik.statisticservice.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/statistics")
@@ -17,7 +17,7 @@ public class StatisticsController {
     private final StatisticsService service;
 
     @GetMapping
-    public Map<ProductDto, Integer> findMostBuyingProduct() {
-        return service.getStatistics();
+    public String findMostBuyingProduct(@RequestParam LocalDate dateOf) {
+        return service.getStatisticByDate(dateOf);
     }
 }
