@@ -1,0 +1,21 @@
+server:
+  port: 9009
+
+spring:
+  application:
+    name: rates-service
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      database: 0
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger/swagger-ui.html
+
+application:
+  rates:
+    url: https://belarusbank.by
+    path: /api/kursExchange

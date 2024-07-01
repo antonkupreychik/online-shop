@@ -94,10 +94,23 @@ services:
     depends_on:
       - postgres
     restart: always
-  redis:
-    image: redis:latest
+  redis-stack:
+    container_name: redis-stack
     ports:
       - "6379:6379"
+      - "8001:8001"
+    image: redis/redis-stack:latest
+  rates-service:
+    build:
+      context: ./rates-service
+      dockerfile: Dockerfile
+    ports:
+      - "9009:9009"
+    depends_on:
+      - redis-stack
+    restart: always
+    environment:
+      - REDIS_HOST=redis-stack
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
