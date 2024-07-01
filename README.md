@@ -141,4 +141,4 @@ docker-compose up --build
 Этот сценарий описывает базовую бизнес-логику и взаимодействие между микросервисами. Подробная реализация будет включать дополнительные детали, такие как обработка ошибок, логирование и мониторинг.
 
 
-<img width="1303" alt="image" src="https://github.com/antonkupreychik/online-shop/assets/125571097/d354620f-e49f-4744-98de-a98df81c56d0">
+<img width="2273" alt="image" src="https://github.com/antonkupreychik/online-shop/assets/125571097/28a24473-1cfa-4d2a-b9bb-2a5464f37b95">
