@@ -12,3 +12,6 @@ spring:
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
     consumer:
       group-id: online-shop
+
+application:
+  daily-stats: ${DAILY_STATS:0 0 * * *}
