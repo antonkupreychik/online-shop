@@ -18,7 +18,7 @@ spring:
   datasource:
     username: anton
     password: anton
-    url: ${URL:jdbc:postgresql://localhost:5432/online-shop}
+    url: ${URL:jdbc:postgresql://postgres:5432/online-shop}
   jpa:
     hibernate:
       ddl-auto: none

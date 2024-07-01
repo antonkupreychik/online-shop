@@ -11,7 +11,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
+    restart: always
   gateway-service:
     build:
       context: ./gateway-service
@@ -20,7 +20,32 @@ services:
       - "8080:8080"
     depends_on:
       - postgres
-
+      - keycloak
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+        window: 60s
+  statistic-service:
+    build:
+      context: ./statistic-service
+      dockerfile: Dockerfile
+    ports:
+      - "9005:9005"
+    depends_on:
+      - postgres
+    restart: on-failure
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/online-shop
+      - DATABASE_USER=anton
+      - DATABASE_PASSWORD=anton
+      - DEFAULT_SCHEMA=statistics_management
+      - LIQUIBASE_SCHEMA=statistics_management_migrations
+      - KEYCLOAK_JWK_URL=http://localhost:8081/realms/demo/protocol/openid-connect/certs
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - PORT=9005
   order-service:
     build:
       context: ./order-service
@@ -29,7 +54,16 @@ services:
       - "9003:9003"
     depends_on:
       - postgres
-
+    restart: always
+    environment:
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/online-shop
+      - DATABASE_USER=anton
+      - DATABASE_PASSWORD=anton
+      - DEFAULT_SCHEMA=order_management
+      - LIQUIBASE_SCHEMA=order_management_migrations
+      - KEYCLOAK_JWK_URL=http://keycloak:8081/realms/demo/protocol/openid-connect/certs
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - PORT=9003
   product-service:
     build:
       context: ./product-service
@@ -38,7 +72,7 @@ services:
       - "9002:9002"
     depends_on:
       - postgres
-
+    restart: always
   user-service:
     build:
       context: ./user-service
@@ -47,11 +81,11 @@ services:
       - "9001:9001"
     depends_on:
       - postgres
+    restart: always
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
-
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
@@ -59,11 +93,10 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     ports:
@@ -71,7 +104,6 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-
   kafdrop:
     image: obsidiandynamics/kafdrop
     ports:
@@ -80,7 +112,17 @@ services:
       KAFKA_BROKERCONNECT: "kafka:9092"
     depends_on:
       - kafka
-
+  keycloak:
+    container_name: keycloak
+    ports:
+      - "8081:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    image: quay.io/keycloak/keycloak:23.0.7
+    command: start-dev
+    restart: always
 
 volumes:
   postgres_data:
+

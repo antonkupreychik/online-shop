@@ -1,11 +1,13 @@
 package com.kupreychik.orderservice.service.impl;
 
+import com.kupreychik.orderservice.events.OrderCreatedEvent;
 import com.kupreychik.orderservice.excpetions.QuantityException;
 import com.kupreychik.orderservice.model.entity.OrderItem;
 import com.kupreychik.orderservice.repository.OrderItemRepository;
 import com.kupreychik.orderservice.service.OrderItemService;
 import com.kupreychik.orderservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +19,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     private final ProductService productService;
     private final OrderItemRepository orderItemRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public OrderItem createOrderItem(OrderItem orderItem) {
-        checkForQuantity(orderItem);
-        return orderItemRepository.save(orderItem);
+        //checkForQuantity(orderItem);
+        eventPublisher.publishEvent(new OrderCreatedEvent(orderItem));
+        //return orderItemRepository.save(orderItem);
+        return null;
     }
 
     @Transactional(readOnly = true)
