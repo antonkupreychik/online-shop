@@ -57,22 +57,34 @@ public class RatesServiceImpl implements RatesService {
 
     @Override
     public List<Rate> getRates(LocalDate date, String currencyFrom, String currencyTo) {
-        if (currencyFrom == null && currencyTo != null) {
+        if (isNeedToFindByCurrencyTo(currencyFrom, currencyTo)) {
             return ratesRepository.findAllByLocalDateAndCurrencyTo(date, currencyTo);
-        }
-        if (currencyFrom != null && currencyTo == null) {
+        } else if (isNeedToFindByCurrentFrom(currencyFrom, currencyTo)) {
             return ratesRepository.findAllByLocalDateAndCurrencyFrom(date, currencyFrom);
-        }
-        if (currencyFrom != null & currencyTo != null) {
+        } else if (isNeedToFindByCurrencyFromAndCurrencyTo(currencyFrom, currencyTo)) {
             return ratesRepository.findAllByLocalDateAndCurrencyToAndCurrencyFrom(date, currencyTo, currencyFrom);
+        } else {
+            return getRates(LocalDate.now());
         }
-        return getRates(LocalDate.now());
     }
 
-    public List<Rate> getRates(LocalDate now) {
+    private boolean isNeedToFindByCurrencyFromAndCurrencyTo(String currencyFrom, String currencyTo) {
+        return currencyFrom != null & currencyTo != null;
+    }
+
+    private boolean isNeedToFindByCurrentFrom(String currencyFrom, String currencyTo) {
+        return currencyFrom != null && currencyTo == null;
+    }
+
+    private boolean isNeedToFindByCurrencyTo(String currencyFrom, String currencyTo) {
+        return currencyFrom == null && currencyTo != null;
+    }
+
+    private List<Rate> getRates(LocalDate now) {
         return ratesRepository.findAllByLocalDate(now);
     }
 
+    @Override
     public List<Currency> getCurrencies() {
         return currencyRepository.findAll();
     }
@@ -82,7 +94,8 @@ public class RatesServiceImpl implements RatesService {
             log.info("No currencies found");
             root.get(0).getCurrencies()
                     .stream()
-                    .map(Currency::new).forEach(currencyRepository::save);
+                    .map(Currency::new)
+                    .forEach(currencyRepository::save);
             currencyRepository.save(new Currency("BYN"));
         }
     }

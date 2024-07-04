@@ -10,7 +10,6 @@ spring:
       port: 6379
       database: 0
 
-
 springdoc:
   swagger-ui:
     path: /swagger/swagger-ui.html

@@ -12,6 +12,23 @@ services:
     ports:
       - "5432:5432"
     restart: always
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+  redis-stack:
+    container_name: redis-stack
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    image: redis/redis-stack:latest
+
   gateway-service:
     build:
       context: ./gateway-service
@@ -94,12 +111,6 @@ services:
     depends_on:
       - postgres
     restart: always
-  redis-stack:
-    container_name: redis-stack
-    ports:
-      - "6379:6379"
-      - "8001:8001"
-    image: redis/redis-stack:latest
   rates-service:
     build:
       context: ./rates-service
@@ -111,6 +122,7 @@ services:
     restart: always
     environment:
       - REDIS_HOST=redis-stack
+
   kafka:
     image: confluentinc/cp-kafka:latest
     ports:
@@ -147,7 +159,23 @@ services:
     image: quay.io/keycloak/keycloak:23.0.7
     command: start-dev
     restart: always
+  mongoexpress:
+    image: mongo-express:1.0.2
+    restart: "no"
+    ports:
+      - "8005:8081"
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8081/status || exit -1
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
 
 volumes:
   postgres_data:
+  mongo-data:
 

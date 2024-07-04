@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface RatesService {
 
-    List<Rate> getRates(LocalDate now);
-
     List<Rate> getRates(LocalDate date, String currencyFrom, String currencyTo);
 
     List<Currency> getCurrencies();

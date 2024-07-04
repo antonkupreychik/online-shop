@@ -1,6 +1,6 @@
 package com.kupreychik.orderservice.service.impl;
 
-import com.kupreychik.orderservice.events.OrderStatusUpdateEvent;
+import com.kupreychik.orderservice.events.OrderCreatedEvent;
 import com.kupreychik.orderservice.mapper.OrderItemMapper;
 import com.kupreychik.orderservice.mapper.OrderMapper;
 import com.kupreychik.orderservice.model.command.OrderCommand;
@@ -15,7 +15,6 @@ import com.kupreychik.orderservice.service.OrderStatusService;
 import com.kupreychik.orderservice.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -73,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(orderStatus);
         order = orderRepository.save(order);
 
-        publisher.publishEvent(createOrderStatusUpdateEvent(order, orderStatus));
+        publisher.publishEvent(createOrderStatusUpdateEvent(order));
         return orderMapper.toDto(order);
     }
 
@@ -105,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAll(pageable);
     }
 
-    private OrderStatusUpdateEvent createOrderStatusUpdateEvent(Order order, OrderStatus orderStatus) {
-        return new OrderStatusUpdateEvent(order, orderStatus);
+    private OrderCreatedEvent createOrderStatusUpdateEvent(Order order) {
+        return new OrderCreatedEvent(order);
     }
 }
